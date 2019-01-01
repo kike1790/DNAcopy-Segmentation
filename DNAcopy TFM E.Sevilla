@@ -1,0 +1,10 @@
+
+
+library(DNAcopy)
+P2 <- read.table( "/Users/enriquesevillaromero/VARSCAN/copynumber/copynumber_pool2/EGAR00001545956_17358.sort.nd.covered.bam.copynumber", header = T,  dec = ",")
+CNA.object_P2 <- CNA( genomdat = P2[,7], chrom = P2[,1], maploc = P2[,2], data.type = 'logratio')
+CNA.object.smoothed_P2 <- smooth.CNA(CNA.object_P2)
+CNA.object.smoothed.seg_P2 <- segment(CNA.object.smoothed_P2, alpha=0.1, verbose = 0, min.width = 2, undo.SD = 3)
+seg.pvalue_P2 <- segments.p(CNA.object.smoothed.seg_P2, ngrid=100, tol=1e-6, alpha=0.05, search.range=100, nperm=1000)
+
+write.table (seg.pvalue_P2, file= "/Users/enriquesevillaromero/VARSCAN/CBS/pool2/P1_EGAR00001545956_17358.txt", sep="\t")
